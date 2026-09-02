@@ -4,7 +4,7 @@ import uuid
 
 from dotenv import load_dotenv
 
-
+from functools import lru_cache
 load_dotenv()
 
 SESSIONS_DIR = "./sessions"
