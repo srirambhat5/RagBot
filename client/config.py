@@ -4,5 +4,5 @@ import os
 
 API_URL = os.getenv(
     "API_URL",
-    "http://127.0.0.1:8000"
+    "https://ragbot-5mpt.onrender.com"
 )
