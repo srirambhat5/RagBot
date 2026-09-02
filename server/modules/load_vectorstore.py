@@ -26,6 +26,7 @@ def get_session_dirs(session_id):
     return upload_dir, chroma_dir
 
 
+@lru_cache(maxsize=1)
 def get_embeddings():
     from langchain_huggingface import HuggingFaceEmbeddings
 
