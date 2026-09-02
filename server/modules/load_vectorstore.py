@@ -3,10 +3,7 @@ from pathlib import Path
 import uuid
 
 from dotenv import load_dotenv
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
+
 
 load_dotenv()
 
@@ -16,10 +13,10 @@ os.makedirs(SESSIONS_DIR, exist_ok=True)
 
 
 def get_session_dirs(session_id):
-    # Validate that the session ID is a valid UUID
     session_uuid = str(uuid.UUID(session_id))
 
     session_dir = Path(SESSIONS_DIR) / session_uuid
+
     upload_dir = session_dir / "uploaded_pdfs"
     chroma_dir = session_dir / "chroma_store"
 
@@ -30,12 +27,18 @@ def get_session_dirs(session_id):
 
 
 def get_embeddings():
+    from langchain_huggingface import HuggingFaceEmbeddings
+
     return HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
 
 def load_vectorstore(uploaded_files, session_id):
+
+    from langchain_community.document_loaders import PyPDFLoader
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    from langchain_chroma import Chroma
 
     upload_dir, chroma_dir = get_session_dirs(session_id)
 
@@ -54,6 +57,7 @@ def load_vectorstore(uploaded_files, session_id):
             f.write(file.file.read())
 
         loader = PyPDFLoader(str(save_path))
+
         documents = loader.load()
 
         splitter = RecursiveCharacterTextSplitter(
@@ -65,14 +69,14 @@ def load_vectorstore(uploaded_files, session_id):
 
         vectorstore.add_documents(chunks)
 
-        print(
-            f"✅ Added {len(chunks)} chunks from {file.filename}"
-        )
+        print(f"✅ Added {len(chunks)} chunks from {file.filename}")
 
     print("✅ Documents added to ChromaDB")
 
 
 def delete_document(filename, session_id):
+
+    from langchain_chroma import Chroma
 
     upload_dir, chroma_dir = get_session_dirs(session_id)
 
