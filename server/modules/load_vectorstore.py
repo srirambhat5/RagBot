@@ -90,14 +90,13 @@ def load_vectorstore(uploaded_files, session_id):
 
         save_path = upload_dir / file.filename
 
-        # Do not allow duplicate filenames
+        # Prevent duplicate filenames
         if save_path.exists():
             raise ValueError(
-                f"{file.filename} already exists. "
-                f"Please delete the existing document before uploading it again."
+                f"{file.filename} already exists."
             )
 
-        # Save the new PDF
+        # Save PDF
         with open(save_path, "wb") as f:
             f.write(file.file.read())
 
@@ -105,7 +104,7 @@ def load_vectorstore(uploaded_files, session_id):
         loader = PyPDFLoader(str(save_path))
         documents = loader.load()
 
-        # Split into chunks
+        # Split PDF into chunks
         chunks = splitter.split_documents(documents)
 
         # Add chunks to ChromaDB
