@@ -14,15 +14,12 @@ langchain-text-splitters
 chromadb
 langchain-chroma
 
-# Local Embeddings
-sentence-transformers
-langchain-huggingface
-
 # PDF Parsing
 pypdf
 
 # Environment Variables
 python-dotenv
+google-genai
 
 # Utilities
 pydantic
