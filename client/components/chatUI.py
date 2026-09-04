@@ -53,7 +53,16 @@ def render_chat():
                 "content": answer
             })
 
+        elif response.status_code == 503:
+
+            st.warning(
+                "⚠️ Gemini is currently busy. "
+                "Please try again in a few seconds."
+            )
+
         else:
+
             st.error(
-                f"Error: {response.text}"
+                "⚠️ Something went wrong while processing your question. "
+                "Please try again."
             )
