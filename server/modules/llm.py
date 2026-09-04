@@ -1,18 +1,41 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.chains import RetrievalQA
-from langchain_groq import ChatGroq
+from langchain_core.language_models.llms import LLM
+
+from google import genai
+from google.genai import types
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+
+class GeminiLLM(LLM):
+
+    @property
+    def _llm_type(self):
+        return "gemini"
+
+    def _call(self, prompt, stop=None, run_manager=None, **kwargs):
+
+        client = genai.Client(
+            api_key=GEMINI_API_KEY
+        )
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+
+        return response.text
+
 
 def get_llm_chain(retriever):
-    llm = ChatGroq(
-        groq_api_key=GROQ_API_KEY,
-        model_name="openai/gpt-oss-120b"
-    )
+
+    llm = GeminiLLM()
 
     prompt = PromptTemplate(
         input_variables=["context", "question"],
