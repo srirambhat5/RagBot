@@ -30,6 +30,7 @@ def get_session_dirs(session_id):
 # ---------------- Gemini Embeddings ---------------- #
 
 class GeminiEmbeddings(Embeddings):
+
     def __init__(self):
         self.client = genai.Client(
             api_key=os.getenv("GEMINI_API_KEY")
@@ -44,7 +45,10 @@ class GeminiEmbeddings(Embeddings):
             }
         )
 
-        return [embedding.values for embedding in response.embeddings]
+        return [
+            embedding.values
+            for embedding in response.embeddings
+        ]
 
     def embed_query(self, text):
         response = self.client.models.embed_content(
@@ -65,6 +69,7 @@ def get_embeddings():
 # ---------------- Upload PDFs & Create Vector Store ---------------- #
 
 def load_vectorstore(uploaded_files, session_id):
+
     from langchain_community.document_loaders import PyPDFLoader
     from langchain_text_splitters import RecursiveCharacterTextSplitter
     from langchain_chroma import Chroma
@@ -82,19 +87,33 @@ def load_vectorstore(uploaded_files, session_id):
     )
 
     for file in uploaded_files:
+
         save_path = upload_dir / file.filename
 
+        # Do not allow duplicate filenames
+        if save_path.exists():
+            raise ValueError(
+                f"{file.filename} already exists. "
+                f"Please delete the existing document before uploading it again."
+            )
+
+        # Save the new PDF
         with open(save_path, "wb") as f:
             f.write(file.file.read())
 
+        # Load PDF
         loader = PyPDFLoader(str(save_path))
         documents = loader.load()
 
+        # Split into chunks
         chunks = splitter.split_documents(documents)
 
+        # Add chunks to ChromaDB
         vectorstore.add_documents(chunks)
 
-        print(f"Added {len(chunks)} chunks from {file.filename}")
+        print(
+            f"Added {len(chunks)} chunks from {file.filename}"
+        )
 
     print("Documents added to ChromaDB")
 
@@ -102,6 +121,7 @@ def load_vectorstore(uploaded_files, session_id):
 # ---------------- Delete PDF ---------------- #
 
 def delete_document(filename, session_id):
+
     from langchain_chroma import Chroma
 
     upload_dir, chroma_dir = get_session_dirs(session_id)
@@ -123,6 +143,7 @@ def delete_document(filename, session_id):
         vectorstore.delete(ids=ids)
 
     file_path = Path(source_path)
+
     if file_path.exists():
         file_path.unlink()
 
@@ -132,10 +153,12 @@ def delete_document(filename, session_id):
 # ---------------- List Uploaded PDFs ---------------- #
 
 def list_documents(session_id):
+
     upload_dir, _ = get_session_dirs(session_id)
 
     return [
         file.name
         for file in upload_dir.iterdir()
-        if file.is_file() and file.suffix.lower() == ".pdf"
+        if file.is_file()
+        and file.suffix.lower() == ".pdf"
     ]
