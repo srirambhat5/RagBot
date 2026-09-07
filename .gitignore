@@ -1,0 +1,13 @@
+.env
+
+venv/
+__pycache__/
+*.pyc
+
+server/venv/
+server/sessions/
+server/uploaded_pdfs/
+server/chroma_store/
+
+client/.streamlit/
+.streamlit/

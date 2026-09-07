@@ -1,0 +1,28 @@
+# Web Framework
+fastapi
+uvicorn[standard]
+python-multipart
+
+# LangChain
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+
+# Vector Database
+chromadb
+langchain-chroma
+
+# PDF Parsing
+pypdf
+
+# Environment Variables
+python-dotenv
+google-genai
+
+# Utilities
+pydantic
+tqdm
+
+# Logging
+loguru
