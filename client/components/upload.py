@@ -62,7 +62,7 @@ def render_uploader():
 
                     st.sidebar.info(
                         "Delete the existing document below "
-                        "if you want to upload a new version."
+                        "if you want to upload a new version of it."
                     )
 
                 else:
