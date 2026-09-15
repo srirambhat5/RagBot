@@ -114,7 +114,7 @@ def load_vectorstore(uploaded_files, session_id):
             f"Added {len(chunks)} chunks from {file.filename}"
         )
 
-    print("Documents added to ChromaDB")
+    print("Documents added to Database")
 
 
 # ---------------- Delete PDF ---------------- #
