@@ -224,7 +224,7 @@ async def delete_pdf(
     except Exception as e:
 
         logger.exception(
-            "Error during PDF deletion action"
+            "Error during PDF deletion"
         )
 
         return JSONResponse(
