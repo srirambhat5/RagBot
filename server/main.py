@@ -277,5 +277,5 @@ async def test():
 
     return {
         "message":
-            "Testing successful..."
+            "Testing successful"
     }
