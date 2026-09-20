@@ -111,7 +111,7 @@ def load_vectorstore(uploaded_files, session_id):
         vectorstore.add_documents(chunks)
 
         print(
-            f"Added {len(chunks)} chunks from {file.filename}"
+            f"Added {len(chunks)} chunks from the {file.filename}"
         )
 
     print("Documents added to Database")
