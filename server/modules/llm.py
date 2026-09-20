@@ -60,6 +60,7 @@ Your job is to provide clear, accurate, and helpful responses based **only on th
 - If the context does not contain the answer, say: "I'm sorry, but I couldn't find relevant information in the provided documents."
 - Do NOT make up facts.
 - Do NOT give fake answers.
+- Respond only to asked question.
 """
     )
 
