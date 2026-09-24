@@ -93,7 +93,7 @@ def load_vectorstore(uploaded_files, session_id):
         # Prevent duplicate filenames
         if save_path.exists():
             raise ValueError(
-                f"{file.filename} already exists."
+                f"{file.filename} already exists"
             )
 
         # Save PDF
