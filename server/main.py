@@ -72,7 +72,7 @@ async def upload_pdf(
         )
 
         logger.info(
-            "Document added to chroma"
+            "Document added to chromaDB"
         )
 
         return {
